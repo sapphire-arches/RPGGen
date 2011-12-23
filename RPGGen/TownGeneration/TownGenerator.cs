@@ -1,20 +1,21 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using MCLib.Rand;
+using Substrate;
 
 namespace RPGGen.TownGeneration
 {
 	public class TownGenerator
 	{
-		ArrayList<Town> _towns;
+		List<Town> _towns;
 		MersenneTwister _mt;
 		int _maxXSearchArea;
 		int _maxZSearchArea;
 		
 		public TownGenerator (int MaxXSearchArea, int MaxZSearchArea)
 		{
-			this._towns = new ArrayList<Town> ();
-			this._mt = new MersenneTwister (DateTime.Now.Ticks);
+			this._towns = new List<Town> ();
+			this._mt = new MersenneTwister ((uint)DateTime.Now.Ticks);
 			this._maxXSearchArea = MaxXSearchArea;
 			this._maxZSearchArea = MaxZSearchArea;
 		}

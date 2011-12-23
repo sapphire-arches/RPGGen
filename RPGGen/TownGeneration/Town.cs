@@ -11,8 +11,8 @@ namespace RPGGen.TownGeneration
 		
 		public Town (int NumBuildings)
 		{
-			MersenneTwister mt = new MersenneTwister (System.DateTime.Now);
-			_buildings = new Building[NumBuilding];
+			MersenneTwister mt = new MersenneTwister ((uint)System.DateTime.Now.Ticks);
+			_buildings = new Building[NumBuildings];
 			for (int i = 0; i < NumBuildings; ++i) {
 				_buildings [i] = GetRandomBuilding (mt);
 			}
@@ -27,7 +27,7 @@ namespace RPGGen.TownGeneration
 		{
 			double d = MT.NextDouble ();
 			//TODO: Randomly select a building type here. For now, we always use a SmallHouse
-			WallSignOrientation o = WallSignOrientation.North;
+			WallSignOrientation o = WallSignOrientation.NORTH;
 			int goal = MT.Next (4);
 			switch (goal) {
 			case 0:
