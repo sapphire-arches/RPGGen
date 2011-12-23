@@ -1,0 +1,35 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="RPGGen/TerrainGen/ChunkFillers/TestChunkFiller.cs">
+    <Files>
+      <File FileName="RPGGen/Main.cs" Line="22" Column="17" />
+      <File FileName="RPGGen/TerrainGen/ChunkProvider.cs" Line="45" Column="14" />
+      <File FileName="RPGGen/TerrainGen/BiomePicker.cs" Line="16" Column="48" />
+      <File FileName="RPGGen/TerrainGen/ChunkFillers/TestChunkFiller.cs" Line="20" Column="66" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Option id="ShowAllFiles" value="False" />
+          <Node name="MCLib" expanded="True">
+            <Node name="Util" expanded="True" />
+          </Node>
+          <Node name="RPGGen" expanded="True">
+            <Node name="TerrainGen" expanded="True">
+              <Node name="ChunkFillers" expanded="True">
+                <Node name="TestChunkFiller.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

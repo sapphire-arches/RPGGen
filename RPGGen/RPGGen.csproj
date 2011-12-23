@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8ADB2F6A-26F9-47A5-AA0A-8DD0FC030AC6}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RPGGen</RootNamespace>
+    <AssemblyName>RPGGen</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <StartupObject>RPGGen.MainClass</StartupObject>
+    <newfilesearch>OnLoadAutoInsert</newfilesearch>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Substrate, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Substrate\NET2\Substrate.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="TerrainGen\ChunkProvider.cs" />
+    <Compile Include="TerrainGen\BiomePicker.cs" />
+    <Compile Include="TerrainGen\ChunkFillers\ChunkFiller.cs" />
+    <Compile Include="TerrainGen\ChunkFillers\TestChunkFiller.cs" />
+    <Compile Include="TownGeneration\TownGenerator.cs" />
+    <Compile Include="TownGeneration\Town.cs" />
+    <Compile Include="TownGeneration\Buildings\Building.cs" />
+    <Compile Include="TownGeneration\Buildings\SmallHouse.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\MCLib\MCLib.csproj">
+      <Project>{8E2F0AB3-41C5-4448-AB31-9EDEA80E042A}</Project>
+      <Name>MCLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TerrainGen\" />
+    <Folder Include="TerrainGen\ChunkFillers\" />
+    <Folder Include="TownGeneration\" />
+    <Folder Include="TownGeneration\Buildings\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gtk-gui\gui.stetic" />
+  </ItemGroup>
+</Project>

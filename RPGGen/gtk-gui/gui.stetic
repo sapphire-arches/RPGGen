@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<stetic-interface>
+  <widget class="Gtk.Window" id="RPGGen.PerlinDisp." design-size="400 300">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">PerlinDisp.</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <child>
+      <placeholder />
+    </child>
+  </widget>
+</stetic-interface>

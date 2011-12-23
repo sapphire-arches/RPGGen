@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGGen", "RPGGen\RPGGen.csproj", "{8ADB2F6A-26F9-47A5-AA0A-8DD0FC030AC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCLib", "MCLib\MCLib.csproj", "{8E2F0AB3-41C5-4448-AB31-9EDEA80E042A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8ADB2F6A-26F9-47A5-AA0A-8DD0FC030AC6}.Debug|x86.ActiveCfg = Debug|x86
+		{8ADB2F6A-26F9-47A5-AA0A-8DD0FC030AC6}.Debug|x86.Build.0 = Debug|x86
+		{8ADB2F6A-26F9-47A5-AA0A-8DD0FC030AC6}.Release|x86.ActiveCfg = Release|x86
+		{8ADB2F6A-26F9-47A5-AA0A-8DD0FC030AC6}.Release|x86.Build.0 = Release|x86
+		{8E2F0AB3-41C5-4448-AB31-9EDEA80E042A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8E2F0AB3-41C5-4448-AB31-9EDEA80E042A}.Debug|x86.Build.0 = Debug|Any CPU
+		{8E2F0AB3-41C5-4448-AB31-9EDEA80E042A}.Release|x86.ActiveCfg = Release|Any CPU
+		{8E2F0AB3-41C5-4448-AB31-9EDEA80E042A}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItems = $0
+		$0.Item = RPGGen\RPGGen.csproj
+	EndGlobalSection
+EndGlobal
