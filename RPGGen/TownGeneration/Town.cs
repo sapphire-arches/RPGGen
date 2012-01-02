@@ -18,9 +18,9 @@ namespace RPGGen.TownGeneration
 			}
 		}
 		
-		public bool CanPlace (int x, int z, NbtWorld world)
+		public bool CanPlace (int X, int Z, NbtWorld world)
 		{
-			return true;
+			return _buildings[0].CanPlace(X, Z, world);
 		}
 		
 		private static Building GetRandomBuilding (MersenneTwister MT)

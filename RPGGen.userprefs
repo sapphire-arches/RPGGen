@@ -1,15 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="RPGGen/TownGeneration/Buildings/SmallHouse.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="RPGGen\Main.cs">
     <Files>
-      <File FileName="RPGGen/Main.cs" Line="22" Column="17" />
-      <File FileName="RPGGen/TerrainGen/ChunkProvider.cs" Line="45" Column="14" />
-      <File FileName="RPGGen/TerrainGen/BiomePicker.cs" Line="16" Column="48" />
-      <File FileName="RPGGen/TerrainGen/ChunkFillers/TestChunkFiller.cs" Line="20" Column="66" />
-      <File FileName="RPGGen/TownGeneration/TownGenerator.cs" Line="18" Column="42" />
-      <File FileName="RPGGen/TownGeneration/Town.cs" Line="30" Column="53" />
-      <File FileName="RPGGen/TownGeneration/Buildings/Building.cs" Line="7" Column="3" />
-      <File FileName="RPGGen/TownGeneration/Buildings/SmallHouse.cs" Line="6" Column="21" />
+      <File FileName="RPGGen\Main.cs" Line="7" Column="17" />
+      <File FileName="RPGGen\TerrainGen\ChunkProvider.cs" Line="1" Column="1" />
+      <File FileName="RPGGen\TerrainGen\BiomePicker.cs" Line="1" Column="1" />
+      <File FileName="RPGGen\TerrainGen\ChunkFillers\TestChunkFiller.cs" Line="1" Column="1" />
+      <File FileName="RPGGen\TownGeneration\TownGenerator.cs" Line="1" Column="1" />
+      <File FileName="RPGGen\TownGeneration\Town.cs" Line="1" Column="1" />
+      <File FileName="RPGGen\TownGeneration\Buildings\SmallHouse.cs" Line="1" Column="1" />
+      <File FileName="MCLib\Util\Util.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -23,10 +23,9 @@
               <Node name="ChunkFillers" expanded="True" />
             </Node>
             <Node name="TownGeneration" expanded="True">
-              <Node name="Buildings" expanded="True">
-                <Node name="SmallHouse.cs" selected="True" />
-              </Node>
+              <Node name="Buildings" expanded="True" />
             </Node>
+            <Node name="Main.cs" selected="True" />
           </Node>
         </State>
       </Pad>

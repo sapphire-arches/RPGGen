@@ -14,17 +14,21 @@ namespace RPGGen
 			String worldName = "RPGTest";//Console.ReadLine ();
 			String sep = System.IO.Path.DirectorySeparatorChar.ToString ();
 			//Create the world
-			NbtWorld world = MCLib.Util.Util.CreateWorld (MCLib.Util.Util.GetPathToMCSaves () + sep + worldName + sep);
-			//world.Level.LevelName = worldName;
+			NbtWorld world = MCLib.Util.Util.CreateWorld (MCLib.Util.Util.GetPathToMCSaves () + worldName + sep);
+			world.Level.LevelName = worldName;
+			world.Level.GameType = GameType.CREATIVE;
 			//Generate the terain.
 			ChunkProvider cp = new ChunkProvider (100);
-			for (int x = 0; x < 16; ++x) {
-				for (int z = 0; z < 16; ++z) {
+			int pos = Console.CursorTop;
+			for (int x = 0; x < 8; ++x) {
+				for (int z = 0; z < 8; ++z) {
 					cp.GetChunk (world, x, z);
+					Console.WriteLine ("Generating Chunk ({0}, {1})", x, z);
+					Console.CursorTop = pos;
 				}
 				world.GetChunkManager ().Save ();
-				Console.WriteLine ("X: {0}", x);
 			}
+			new TownGeneration.Town(1).CanPlace(30, 30, world);
 			world.GetChunkManager ().Save ();
 			world.Level.Player.Spawn = new SpawnPoint(0, world.GetBlockManager ().GetHeight (0, 0), 0);
 			world.Level.Player.Position.Y = world.GetBlockManager ().GetHeight (0, 0) + 1;

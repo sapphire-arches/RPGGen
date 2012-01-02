@@ -19,7 +19,7 @@ namespace RPGGen.TerrainGeneration.ChunkFillers
 			AlphaBlockCollection c = CR.Blocks;
 			
 			for (int y = 1; y < 128; ++y) {
-				double f = p3.Get (x, 1 / 32.0, y, 1 / 16.0, z, 1 / 32.0, 0.5, 8);
+				double f = p3.Get (x, 1 / 64.0, y, 1 / 128.0, z, 1 / 64.0, 0.5, 8);
 				f += 1 - ((y + 20) / 128.0);
 				if (f > 1) {
 					c.SetID (X, y, Z, BlockInfo.Stone.ID);
@@ -35,9 +35,9 @@ namespace RPGGen.TerrainGeneration.ChunkFillers
 				if (y > 0)
 					c.SetID (X, y, Z, BlockInfo.Dirt.ID);
 			}
-			//Bottom layer must be bedrock
 			if (height - 1 > 0)
 				c.SetID (X, height, Z, BlockInfo.Grass.ID);
+			//Bottom layer must be bedrock
 			c.SetID (X, 0, Z, BlockInfo.Bedrock.ID);
 		}
 	}

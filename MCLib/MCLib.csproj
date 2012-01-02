@@ -33,7 +33,7 @@
     <Reference Include="System" />
     <Reference Include="Substrate, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Substrate\NET2\Substrate.dll</HintPath>
+      <HintPath>bin\Debug\Substrate.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
