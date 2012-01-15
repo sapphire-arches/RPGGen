@@ -64,9 +64,9 @@ namespace RPGGen.TownGeneration.BuildingGeneration
 					//Roof.
 					int peak = 0;
 					if (_o == WallSignOrientation.NORTH || _o == WallSignOrientation.SOUTH) {
-						peak = (Abs(x - _fp.X / 2) * -1) + 3;
+						peak = (Abs((int)(x - _fp.X / 2.0)) * -1) + 3;
 					} else {
-						peak = (Abs(z - _fp.Z / 2) * -1) + 3;
+						peak = (Abs((int)(z - _fp.X / 2.0)) * -1) + 3;
 					}
 					bm.SetID(x + X, AverageHeight + peak + 3, z + Z, BlockInfo.Cobblestone.ID);
 				}

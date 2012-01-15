@@ -25,7 +25,6 @@ namespace RPGGen.TownGeneration
 		
 		private static Building GetRandomBuilding (MersenneTwister MT)
 		{
-			double d = MT.NextDouble ();
 			//TODO: Randomly select a building type here. For now, we always use a SmallHouse
 			WallSignOrientation o = WallSignOrientation.NORTH;
 			int goal = MT.Next (4);

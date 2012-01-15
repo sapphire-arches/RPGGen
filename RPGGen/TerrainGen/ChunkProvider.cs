@@ -37,22 +37,27 @@ namespace RPGGen.TerrainGeneration
 			Console.WriteLine ("Done");
 		}
 		
-		public ChunkRef GetChunk (NbtWorld World, int X, int Y)
+		public ChunkRef GetChunk (NbtWorld World, int X, int Z)
 		{
 			BiomePicker bp = BiomePicker.Get ();
 			double temp;
 			double h;
 			ChunkRef tr = null;
-			if (World.GetChunkManager ().ChunkExists (X, Y)) {
-				tr = World.GetChunkManager ().GetChunkRef (X, Y);
-			} else {
-				tr = World.GetChunkManager ().CreateChunk (X, Y);
+			if (World.GetChunkManager ().ChunkExists (X, Z)) {
+				World.GetChunkManager ().DeleteChunk (X, Z); //Delete the chunk if it exists.
 			}
+			tr = World.GetChunkManager ().CreateChunk (X, Z);
 			for (int x = 0; x < 16; ++x) {
 				for (int z = 0; z < 16; ++z) {
-					temp = _temperature.Get (x + X * 16, 1.0 / 256, z + z * 16, 1.0 / 256, 0.5, 8);
-					h = _temperature.Get (x + X * 16, 1.0 / 256, z + z * 16, 1.0 / 256, 0.5, 8);
-					bp.Get (temp, h).FillColum (x, z, tr, this);
+					temp = _temperature.Get (x + X * 16, 1.0 / 256, z + Z * 16, 1.0 / 256, 0.5, 8);
+					h = _temperature.Get (x + X * 16, 1.0 / 256, z + Z * 16, 1.0 / 256, 0.5, 8);
+					
+					for (int y = 0; y < 128; ++y) {
+						double f = bp.Get (x + X * 16, y, z + Z * 16, temp, h, this);
+						int id = bp.GetMapping (temp, h, f);
+						if (id != BlockInfo.Air.ID)
+							tr.Blocks.SetID (x, y, z, id);
+					}
 				}
 			}
 			tr.IsTerrainPopulated = false;

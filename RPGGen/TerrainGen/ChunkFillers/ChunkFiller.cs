@@ -6,7 +6,7 @@ namespace RPGGen.TerrainGeneration.ChunkFillers
 {
 	public interface ChunkFiller
 	{
-		void FillColum(int X, int Y, ChunkRef CR, ChunkProvider CP);
+		double GetDensity(int X, int Y, int Z, ChunkProvider CP);
 	}
 }
 
