@@ -3,78 +3,122 @@ using Substrate;
 
 namespace RPGGen.TownGeneration.BuildingGeneration
 {
-	public class SmallHouse : Building
+	public class SmallHouse : IBuilding
 	{
+		static int _idCount;
 		Footprint _fp;
-		WallSignOrientation _o;
+		Orientation _o;
+		int _x, _z, _id;
 		
-		public SmallHouse (WallSignOrientation o)
+		public SmallHouse (Orientation o, int X, int Z, Town t)
 		{
 			this._o = o;
-			if (o == WallSignOrientation.NORTH || 0 == WallSignOrientation.SOUTH)
-				_fp = new Footprint(8, 6);
+			if (o == Orientation.NORTH || 0 == Orientation.SOUTH)
+				_fp = new Footprint (8, 6);
 			else
-				_fp = new Footprint(6, 8);
+				_fp = new Footprint (6, 8);
+			this._x = X;
+			this._z = Z;
+			this._id = _idCount++;
+			if (!t.IsIDRegisted (2))
+				t.RegisterID (2);
 		}
 		
-		public bool CanPlace(int X, int Z, NbtWorld World) {
+		public bool CanPlace (NbtWorld World)
+		{
 			int averageHeight = 0;
 			int maxHeight = 0;
-			BlockManager bm = (BlockManager)World.GetBlockManager();
+			BlockManager bm = (BlockManager)World.GetBlockManager ();
 			for (int x = 0; x < _fp.X; ++x) {
 				for (int z = 0; z < _fp.Z; ++z) {
-					int h = bm.GetHeight(x + X, z + Z);
+					int h = bm.GetHeight (x + _x, z + _z);
 					averageHeight += h;
 					if (maxHeight < h)
 						maxHeight = h;
 				}
 			}
 			averageHeight /= _fp.X * _fp.Z;
-			if (averageHeight > 120) return false;
+			if (averageHeight > 120)
+				return false;
 			
 			for (int x = 0; x < _fp.X; ++x) {
 				for (int z = 0; z < _fp.Z; ++z) {
-					if (Abs(bm.GetHeight(x + X, z + Z) - averageHeight) > 3)
+					if (Abs (bm.GetHeight (x + _x, z + _z) - averageHeight) > 3)
 						return false;
 				}
 			}
 			//Build the house!
-			BuildHouse(X, Z, averageHeight, bm);
+			BuildHouse (_x, _z, averageHeight, bm);
 			return true;
 		}
 		
-		private void BuildHouse(int X, int Z, int AverageHeight, BlockManager bm) {
+		public void Build (NbtWorld World)
+		{
+			int averageHeight = 0;
+			BlockManager bm = (BlockManager)World.GetBlockManager ();
+			for (int x = 0; x < _fp.X; ++x) {
+				for (int z = 0; z < _fp.Z; ++z) {
+					averageHeight += bm.GetHeight (x + _x, z + _z);
+				}
+			}
+			averageHeight /= _fp.X * _fp.Z;
+			BuildHouse (_x, _z, averageHeight, bm);
+		}
+		
+		private void BuildHouse (int X, int Z, int AverageHeight, BlockManager bm)
+		{
 			for (int x = 0; x < _fp.X; ++x) {
 				for (int z = 0; z < _fp.Z; ++z) {
 					if (x == 0 || x == _fp.X - 1 || z == 0 || z == _fp.Z - 1) {
-						//Always make the outisde bit of the floor wood.
-						bm.SetID(x + X, AverageHeight, z + Z, BlockInfo.Wood.ID);
 						//Walls. 
 						for (int y = AverageHeight; y < AverageHeight + 4; ++y) {
 							//Walls should be wood.
-							bm.SetID(x + X, y, z + Z, BlockInfo.Wood.ID);
-						}
+							if (y != AverageHeight + 2)
+								bm.SetID (x + X, y, z + Z, BlockInfo.Wood.ID);
+							else
+								bm.SetID (x + X, y, z + Z, BlockInfo.Glass.ID);
+						}	
 					} else {
-						//Make a wood/stone checkerboard pattern on the inside floor.
-						if ((1 + x + z * _fp.X) % 2 == 0)
-							bm.SetID (x + X, AverageHeight, z + Z, BlockInfo.WoodPlank.ID);
-						else
-							bm.SetID(x + X, AverageHeight, z + Z, BlockInfo.Stone.ID);
+						//Floor is wooden planks.
+						bm.SetID (x + X, AverageHeight, z + Z, BlockInfo.WoodPlank.ID);
 					}
 					//Roof.
-					int peak = 0;
-					if (_o == WallSignOrientation.NORTH || _o == WallSignOrientation.SOUTH) {
-						peak = (Abs((int)(x - _fp.X / 2.0)) * -1) + 3;
+					int peak = (int) (x * (x - _fp.X - 1) + z * (z - _fp.Z - 1));
+					if (_o == Orientation.NORTH || _o == Orientation.SOUTH) {
+						//Absolute value function. Graph makes the peak of the roof.
+						//peak = (Abs ((int)((x - 0.5) - _fp.X / 2.0)) * -1) + 7;
+						//Make the stairs face the right direction.
+						bm.SetData (x + X, AverageHeight + peak, z + Z, ((x > _fp.X / 2.0) ? 0x1 : 0x0));
 					} else {
-						peak = (Abs((int)(z - _fp.X / 2.0)) * -1) + 3;
+						//Absolute value function. Graph makes the peak of the roof.
+						//peak = (Abs ((int)((z - 0.5) - _fp.X / 2.0)) * -1) + 7;
+						//Make the stairs face the right direction.
+						bm.SetData (x + X, AverageHeight + peak, z + Z, ((z + 0.5 > _fp.Z / 2.0) ? 0x3 : 0x2));
 					}
-					bm.SetID(x + X, AverageHeight + peak + 3, z + Z, BlockInfo.Cobblestone.ID);
+					bm.SetID (x + X, AverageHeight + peak, z + Z, BlockInfo.WoodStairs.ID);
+					
+					if (x == 0 || x == _fp.X - 1 || z == 0 || z == _fp.Z - 1) { //If it is is the sides, fill up to the house height.
+						for (int y = AverageHeight + 4; y < AverageHeight + peak; ++y) {
+							bm.SetID (x + X, y, z + Z, BlockInfo.Wood.ID);
+						}
+					}
 				}
 			}
 		}
 		
-		public Footprint GetFootprint() {
+		public Footprint GetFootprint ()
+		{
 			return _fp;
+		}
+		
+		public int GetID ()
+		{
+			return this._id;
+		}
+		
+		new public int GetType ()
+		{
+			return 2;
 		}
 					
 		private int Abs (int I) {

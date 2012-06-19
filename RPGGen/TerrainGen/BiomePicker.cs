@@ -27,8 +27,7 @@ namespace RPGGen.TerrainGeneration
 		
 		public int GetMapping (double Temperature, double Humidity, double f)
 		{
-			if (f > 1.2)
-				return BlockInfo.Bedrock.ID;
+			//No nead to map to bedrock, handled by the CP;
 			if (f > 1.0)
 				return BlockInfo.Stone.ID;
 			if (f > 0.98)

@@ -10,29 +10,38 @@ namespace RPGGen
 	{
 		public static void Main (string[] args)
 		{
+			DateTime start = System.DateTime.Now;
 			//Console.Write ("Enter name of world: ");
 			String worldName = "RPGTest";//Console.ReadLine ();
 			String sep = System.IO.Path.DirectorySeparatorChar.ToString ();
 			//Create the world
 			NbtWorld world = MCLib.Util.Util.CreateWorld (MCLib.Util.Util.GetPathToMCSaves () + worldName + sep);
 			world.Level.LevelName = worldName;
+#if DEBUG
 			world.Level.GameType = GameType.CREATIVE;
+#endif
+			//Save the level file.
+			world.Level.Save ();
 			//Generate the terain.
 			ChunkProvider cp = new ChunkProvider (100);
 			int pos = Console.CursorTop;
-			for (int x = 0; x < 8; ++x) {
-				for (int z = 0; z < 8; ++z) {
-					cp.GetChunk (world, x, z);
-					Console.WriteLine ("Generating Chunk ({0}, {1})", x, z);
-					Console.CursorTop = pos;
-				}
-				world.GetChunkManager ().Save ();
-			}
-			new TownGeneration.Town(1).CanPlace(30, 30, world);
+			
+			cp.PopulateWorld (world, 8, 8);
+			
+			Console.CursorTop = pos + 1;
 			world.GetChunkManager ().Save ();
-			world.Level.Player.Spawn = new SpawnPoint(0, world.GetBlockManager ().GetHeight (0, 0), 0);
+			Console.WriteLine (new TownGeneration.Town (50, 2, 256, 256).CanPlace (65, 65, world));
+			world.GetChunkManager ().Save ();
+			if (world.Level.Player == null)
+				world.Level.Player = new Player ();
+			world.Level.Player.Spawn = new SpawnPoint (0, world.GetBlockManager ().GetHeight (0, 0), 0);
 			world.Level.Player.Position.Y = world.GetBlockManager ().GetHeight (0, 0) + 1;
+			world.Level.Time = 0; //Make it morning.
+			world.Level.LastPlayed = DateTime.UtcNow.Ticks / 10000;
 			world.Level.Save ();
+			Console.WriteLine ("Done!");
+			TimeSpan t = new TimeSpan (DateTime.Now.Ticks - start.Ticks);
+			Console.WriteLine ("Took : " + t);
 		}
 	}
 }

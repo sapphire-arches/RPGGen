@@ -35,11 +35,23 @@ namespace MCLib.Util
 		
 		public static NbtWorld CreateWorld (string path)
 		{
-			if (!Directory.Exists (path)) {
+			if (!Directory.Exists (path) || !File.Exists (path + Path.DirectorySeparatorChar + "level.dat")) {
 				Directory.CreateDirectory (path);
 				return BetaWorld.Create (path);
 			}
 			return BetaWorld.Open (path);
+		}
+	}
+	
+	public class IntegerMath {
+		public static int Abs (int I)
+		{
+			return (I < 0) ? -I : I;
+		}
+		
+		public static int Sign (double D)
+		{
+			return (D < 0) ? -1 : ((D == 0) ? 0 : 1);
 		}
 	}
 }

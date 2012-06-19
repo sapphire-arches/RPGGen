@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -9,7 +9,6 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>RPGGen</RootNamespace>
     <AssemblyName>RPGGen</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <StartupObject>RPGGen.MainClass</StartupObject>
     <newfilesearch>OnLoadAutoInsert</newfilesearch>
   </PropertyGroup>
@@ -35,10 +34,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="Substrate, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Substrate.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
@@ -51,8 +46,14 @@
     <Compile Include="TerrainGen\ChunkFillers\TestChunkFiller.cs" />
     <Compile Include="TownGeneration\TownGenerator.cs" />
     <Compile Include="TownGeneration\Town.cs" />
-    <Compile Include="TownGeneration\Buildings\Building.cs" />
     <Compile Include="TownGeneration\Buildings\SmallHouse.cs" />
+    <Compile Include="TownGeneration\TownPlacer.cs" />
+    <Compile Include="TownGeneration\Buildings\IBuilding.cs" />
+    <Compile Include="TownGeneration\RoadGen\InTownRoadNetwork.cs" />
+    <Compile Include="TownGeneration\RoadGen\Road.cs" />
+    <Compile Include="TownGeneration\RoadGen\RoadSegment.cs" />
+    <Compile Include="TownGeneration\RoadGen\RoadType.cs" />
+    <Compile Include="Orientation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -60,12 +61,17 @@
       <Project>{8E2F0AB3-41C5-4448-AB31-9EDEA80E042A}</Project>
       <Name>MCLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Substrate\SubstrateCS\Substrate %28NET4%29.csproj">
+      <Project>{7264A1C4-AB4A-4437-B252-7379B98B5509}</Project>
+      <Name>Substrate (NET4)</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TerrainGen\" />
     <Folder Include="TerrainGen\ChunkFillers\" />
     <Folder Include="TownGeneration\" />
     <Folder Include="TownGeneration\Buildings\" />
+    <Folder Include="TownGeneration\RoadGen\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="gtk-gui\gui.stetic" />
