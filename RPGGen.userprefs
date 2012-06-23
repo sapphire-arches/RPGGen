@@ -1,37 +1,24 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../Substrate/SubstrateCS/Source/Core/Concurrent/ConcurrentLinkedListSupport.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="RPGGen/Main.cs">
     <Files>
-      <File FileName="RPGGen/TerrainGen/ChunkProvider.cs" Line="87" Column="5" />
-      <File FileName="../../Substrate/SubstrateCS/Source/Core/Concurrent/ConcurrentLinkedList.cs" Line="69" Column="53" />
-      <File FileName="../../Substrate/SubstrateCS/Source/Core/Concurrent/ConcurrentLinkedListSupport.cs" Line="44" Column="4" />
-      <File FileName="../../Substrate/SubstrateCS/Source/Core/IndexedLinkedList.cs" Line="38" Column="44" />
+      <File FileName="../../Substrate/SubstrateCS/Source/Core/ByteArray.cs" Line="113" Column="1" />
+      <File FileName="RPGGen/TerrainGen/ChunkProvider.cs" Line="55" Column="41" />
+      <File FileName="../../Substrate/SubstrateCS/Source/AlphaBlockCollection.cs" Line="318" Column="1" />
+      <File FileName="RPGGen/Main.cs" Line="48" Column="33" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Option id="ShowAllFiles" value="False" />
           <Node name="MCLib" expanded="True">
-            <Node name="References" expanded="True" />
-            <Node name="Util" expanded="True" />
+            <Node name="References" selected="True" />
           </Node>
           <Node name="RPGGen" expanded="True">
-            <Node name="References" expanded="True" />
-            <Node name="TerrainGen" expanded="True">
-              <Node name="ChunkFillers" expanded="True" />
-            </Node>
-            <Node name="TownGeneration" expanded="True">
-              <Node name="RoadGen" expanded="True" />
-            </Node>
+            <Node name="TerrainGen" expanded="True" />
           </Node>
-          <Node name="Substrate (NET4)" expanded="True">
-            <Node name="Source" expanded="True">
-              <Node name="Core" expanded="True">
-                <Node name="Concurrent" expanded="True">
-                  <Node name="ConcurrentLinkedListSupport.cs" selected="True" />
-                </Node>
-              </Node>
-            </Node>
+          <Node name="Substrate (NET2)" expanded="True">
+            <Node name="Source" expanded="True" />
           </Node>
         </State>
       </Pad>

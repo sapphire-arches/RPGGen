@@ -45,9 +45,9 @@
     <Folder Include="Random\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Substrate\SubstrateCS\Substrate %28NET4%29.csproj">
-      <Project>{7264A1C4-AB4A-4437-B252-7379B98B5509}</Project>
-      <Name>Substrate (NET4)</Name>
+    <ProjectReference Include="..\..\..\Substrate\SubstrateCS\Substrate %28NET2%29.csproj">
+      <Project>{AFE30E14-3F2F-4461-9F7D-147AB4DCA4C3}</Project>
+      <Name>Substrate (NET2)</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

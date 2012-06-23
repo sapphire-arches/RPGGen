@@ -24,12 +24,33 @@ namespace RPGGen
 			world.Level.Save ();
 			//Generate the terain.
 			ChunkProvider cp = new ChunkProvider (100);
-			int pos = Console.CursorTop;
 			
 			cp.PopulateWorld (world, 8, 8);
 			
-			Console.CursorTop = pos + 1;
-			world.GetChunkManager ().Save ();
+			//Update lights.
+			Console.Write ("Updating Light Data... ");
+			{
+				Substrate.Core.IChunkManager cm = world.GetChunkManager ();
+				foreach (ChunkRef c in cm) {
+					AlphaBlockCollection blocks = (AlphaBlockCollection)c.Blocks;
+					int xdim = blocks.XDim;
+					int ydim = blocks.YDim;
+					int zdim = blocks.ZDim;
+					for (int x = 0; x < xdim; ++x) {
+						for (int y = 0; y < ydim; ++y) {
+							for (int z = 0; z < zdim; ++z) {
+								blocks.UpdateSkyLight (x, y, z);
+								blocks.UpdateBlockLight (x, y, z);
+								blocks.UpdateFluid (x, y, z);
+							}
+						}
+					}
+					blocks.RebuildHeightMap ();
+					world.GetChunkManager ().Save ();
+				}
+			}
+			Console.WriteLine ("Done");
+			
 			Console.WriteLine (new TownGeneration.Town (50, 2, 256, 256).CanPlace (65, 65, world));
 			world.GetChunkManager ().Save ();
 			if (world.Level.Player == null)
@@ -39,7 +60,7 @@ namespace RPGGen
 			world.Level.Time = 0; //Make it morning.
 			world.Level.LastPlayed = DateTime.UtcNow.Ticks / 10000;
 			world.Level.Save ();
-			Console.WriteLine ("Done!");
+			Console.Write ("Done! ");
 			TimeSpan t = new TimeSpan (DateTime.Now.Ticks - start.Ticks);
 			Console.WriteLine ("Took : " + t);
 		}

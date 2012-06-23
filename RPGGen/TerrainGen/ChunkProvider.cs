@@ -12,6 +12,8 @@ namespace RPGGen.TerrainGeneration
 		Perlin3D _p3d;
 		Perlin2D _p2d;
 		
+		object _worldLock = new object();
+		
 		public Perlin2D Temperature {
 			get { return _temperature;}
 		}
@@ -43,15 +45,11 @@ namespace RPGGen.TerrainGeneration
 			Thread[] ts = new Thread [Width * Height];
 			ChunkRef tr;
 			for (int x = 0; x < Width; ++x) {
-				for (int y = 0; y < Height; ++y) {
-					if (World.GetChunkManager ().ChunkExists (x, y)) {
-						World.GetChunkManager ().DeleteChunk (x, y); //Delete the chunk if it exists.
-					}
-					tr = World.GetChunkManager ().CreateChunk (x, y);
-					Thread t = new Thread (Populate);
-					t.Name = "Chunk Generation Thread (" + x + ", " + y + ")";
-					t.Start (tr);
-					ts [x + y * Width] = t;
+				for (int z = 0; z < Height; ++z) {
+					Thread t = new Thread (Run);
+					t.Name = "Chunk Generation Thread (" + x + ", " + z + ")";
+					t.Start (new ChunkThreadParams (x, z, 1, 1, World));
+					ts [x + z * Width] = t;
 				}
 			}
 			for (int i = 0; i < ts.Length; ++i) {
@@ -62,24 +60,42 @@ namespace RPGGen.TerrainGeneration
 		public ChunkRef GetChunk (NbtWorld World, int X, int Z)
 		{
 			ChunkRef tr;
-			if (World.GetChunkManager ().ChunkExists (X, Z)) {
-				World.GetChunkManager ().DeleteChunk (X, Z); //Delete the chunk if it exists.
+			lock (World) {
+				if (World.GetChunkManager ().ChunkExists (X, Z)) {
+					World.GetChunkManager ().DeleteChunk (X, Z); //Delete the chunk if it exists.
+				}
+				tr = World.GetChunkManager ().CreateChunk (X, Z);
+				Populate (tr);
+				return tr;
 			}
-			tr = World.GetChunkManager ().CreateChunk (X, Z);
-			Populate (tr);
-			return tr;
 		}
 		
-		private void Populate (object param)
+		private void Run (object Params)
+		{
+			ChunkThreadParams param = (ChunkThreadParams)Params;
+			
+			for (int x = 0; x < param.Width; ++x) {
+				for (int z = 0; z < param.Height; ++z) {
+					GetChunk (param.World, x + param.X, z + param.Z);
+				}
+			}
+		}
+		
+		private void Populate (ChunkRef Ret)
 		{
 			//Param extraction
-			ChunkRef tr = (ChunkRef)param;
+			ChunkRef tr = Ret;
 			int X = tr.X;
 			int Z = tr.Z;
 			//Lerp lambada
 			Func<double, double, double, double > lerp = (double q, double u, double e) => (u * e) + (q * (1 - e));
 			//
 			BiomePicker bp = BiomePicker.Get ();
+			AlphaBlockCollection bc = tr.Blocks;
+			//We will call these by ourselves, when we know that all threads are done.
+			bc.AutoLight = false;
+			bc.AutoFluid = false;
+			bc.AutoTileTick = false;
 			double temp;
 			double h;
 			for (int x = 0; x < 16; ++x) {
@@ -92,25 +108,68 @@ namespace RPGGen.TerrainGeneration
 					double interpolatedF = 0;
 					
 					//Bedrock floor.
-					tr.Blocks.SetID (x, 0, z, BlockInfo.Bedrock.ID);
-					for (int y = 1; y < 128; ++y) {
-						if (y % 8 == 0) {
-							f = nextF;
-							nextF = bp.Get (x + X * 16, y, z + Z * 16, temp, h, this);
+					lock (bc) {
+						bc.SetID (x, 0, z, BlockInfo.Bedrock.ID);
+						int hei = 0;
+						for (int y = 1; y < 128; ++y) {
+							if (y % 8 == 0) {
+								f = nextF;
+								nextF = bp.Get (x + X * 16, y, z + Z * 16, temp, h, this);
+							}
+							interpolatedF = lerp (f, nextF, (y % 8) / 8.0); 
+							int id = bp.GetMapping (temp, h, interpolatedF);
+							if (bc.GetID (x, y, z) != id)
+								bc.SetID (x, y, z, id);
+							if (id != BlockInfo.Air.ID) {
+								hei = y;
+							}
 						}
-						interpolatedF = lerp (f, nextF, (y % 8) / 8.0); 
-						int id = bp.GetMapping (temp, h, interpolatedF);
-						if (tr.Blocks.GetID (x, y, z) != id)
-							tr.Blocks.SetID (x, y, z, id);
+						//Grassify.
+						if (hei > 0 && bc.GetID (x, hei, z) == BlockInfo.Dirt.ID) {
+							bc.SetID (x, hei, z, BlockInfo.Grass.ID);
+						}
 					}
-					//Grassify.
-					int hei = tr.Blocks.GetHeight (x, z) - 1;
-					if (tr.Blocks.GetID (x, hei, z) == BlockInfo.Dirt.ID) {
-						tr.Blocks.SetID (x, hei, z, BlockInfo.Grass.ID);
-					}
-				}
+				} 
 			}
 			tr.IsTerrainPopulated = false;
+			Console.WriteLine ("Built chunk: {0}, {1}", X, Z);
+		}
+	}
+	
+	internal class ChunkThreadParams {
+		int _x;
+		int _z;
+		int _width;
+		int _height;
+		NbtWorld _world;
+		
+		public int X {
+			get { return _x;}
+		}
+		
+		public int Z {
+			get { return _z;}
+		}
+		
+		public int Width {
+			get { return _width;}
+		}
+		
+		public int Height {
+			get { return _height;}
+		}
+		
+		public NbtWorld World {
+			get {return _world;}
+		}
+		
+		public ChunkThreadParams (int X, int Z, int Width, int Height, NbtWorld World)
+		{
+			_x = X;
+			_z = Z;
+			_width = Width;
+			_height = Height;
+			_world = World;
 		}
 	}
 }
